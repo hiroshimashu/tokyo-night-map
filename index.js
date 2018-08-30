@@ -8,6 +8,13 @@ mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 const app = express();
 app.use(bodyParser.json());
 
+// CORSを許可する
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
 require('./routes/mapInformationRoutes')(app);
 
 
