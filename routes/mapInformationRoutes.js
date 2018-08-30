@@ -2,10 +2,16 @@ const mongoose = require('mongoose');
 const MapInformation = mongoose.model('mapInfo');
 
 module.exports = (app) => { 
-    app.get(
-        '/',
-        () => {console.log("hello world")}
-    )
+
+    app.get('/get/mapinfo', async (req, res) => {
+        try {
+            const info = await MapInformation.find();
+            
+            return res.send(info);
+        } catch (err) {
+            res.status(422).send(err);
+        }
+    })
 
     app.post('/api/register', async (req, res) => {
         const { shopName, latitude, longitude, category } = req.body;
