@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from  'axios';
-
+import {StaticMap} from 'react-map-gl'; 
+const TOKEN = "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2o4OW90ZjNuMDV6eTMybzFzbmc3bWpvciJ9.zfRO_nfL1O3d2EuoNtE_NQ";
 class App extends Component {
     state = {
         mapinfo: []
@@ -36,9 +37,18 @@ class App extends Component {
     }
 
     render() {
+        console.log(process.env);
         return(
             <div>
                {this.renderMapData()}
+                <StaticMap
+                   width={400}
+                   height={400}
+                   latitude={35.66082}
+                   longitude={139.726211}
+                   zoom={16} 
+                   mapboxApiAccessToken= {TOKEN}
+                />
             </div>
         )
     }
