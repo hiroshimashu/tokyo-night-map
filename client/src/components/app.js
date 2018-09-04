@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from  'axios';
 import {StaticMap} from 'react-map-gl'; 
+import Point from './point';
+// Need to move TOKEN into .env file and read from it. 
 const TOKEN = "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2o4OW90ZjNuMDV6eTMybzFzbmc3bWpvciJ9.zfRO_nfL1O3d2EuoNtE_NQ";
 class App extends Component {
     state = {
@@ -37,7 +39,8 @@ class App extends Component {
     }
 
     render() {
-        console.log(process.env);
+        const data = {coodinates: [35.66082, 139.726211]}
+
         return(
             <div>
                {this.renderMapData()}
@@ -48,7 +51,12 @@ class App extends Component {
                    longitude={139.726211}
                    zoom={16} 
                    mapboxApiAccessToken= {TOKEN}
-                />
+                >
+                    <Point 
+                        data = {data}
+                        
+                    />
+                </StaticMap>
             </div>
         )
     }
