@@ -81,6 +81,7 @@ class App extends Component {
             mapStyle={MAPBOX_STYLE}
             mapboxApiAccessToken={TOKEN}>
             <Point
+              viewState = {this.state.viewport}
               data={this.state.points}
             />
           </MapGL>
