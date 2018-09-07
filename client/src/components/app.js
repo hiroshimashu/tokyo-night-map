@@ -14,7 +14,7 @@ class App extends Component {
             height: window.innerHeight,
             longitude:139.72,
             latitude: 35.66,
-            zoom: 16,
+            zoom: 14,
             maxZoom: 20,
             selectedHour: null
           },
