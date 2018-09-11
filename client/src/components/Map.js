@@ -46,7 +46,7 @@ class Map extends Component {
       }
     
       async _processData() {
-        const taxiData = await axios.get('http://localhost:5000/get/mapinfo');
+        const taxiData = await axios.get('/get/mapinfo');
         if (taxiData) {
           console.log(taxiData);
           this.setState({status: 'LOADED'});
