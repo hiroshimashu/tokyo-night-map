@@ -30,7 +30,7 @@ class App extends Component {
 
     render() {
         return (
-            <div style ={{ width: window.innerWidth, height: window.innerHeight, color:"#201e1e"}}>
+            <div style ={{ width: window.innerWidth, height: window.innerHeight, backgroundColor:"#201e1e"}}>
                  { this.renderView() }
             </div>
         );

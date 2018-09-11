@@ -28,9 +28,9 @@ class Map extends Component {
         this._resize();
     }
     
-      componentWillUnmount() {
+    componentWillUnmount() {
         window.removeEventListener('resize', this._resize);
-      }
+    }
     
       _resize() {
         this._onViewportChange({
