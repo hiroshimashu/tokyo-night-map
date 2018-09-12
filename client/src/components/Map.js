@@ -75,17 +75,17 @@ class Map extends Component {
       render() {
         return (
           <div>
-          <MapGL
-            {...this.state.viewport}
-            onViewportChange={viewport => this._onViewportChange(viewport)}
-            mapStyle={MAPBOX_STYLE}
-            mapboxApiAccessToken={TOKEN}>
-            <Point
-              viewState = {this.state.viewport}
-              data={this.state.points}
-            />
-          </MapGL>
-        </div>
+              <MapGL
+                {...this.state.viewport}
+                onViewportChange={viewport => this._onViewportChange(viewport)}
+                mapStyle={MAPBOX_STYLE}
+                mapboxApiAccessToken={TOKEN}>
+                <Point
+                  viewState = {this.state.viewport}
+                  data={this.state.points}
+                />
+              </MapGL>
+          </div>
         );
       }
 }

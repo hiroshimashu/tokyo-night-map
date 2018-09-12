@@ -24,7 +24,7 @@ class DataForm extends Component {
         const info = { shopName: shopname, latitude: latitude, longitude: longitude, category: category }
         try {
             this.setState({onLoad: true });
-            const response = await axios.post('http://localhost:5000/api/register', info);
+            const response = await axios.post('/api/register', info);
             console.log(response);
             this.setState({
                 success: true,
@@ -47,7 +47,7 @@ class DataForm extends Component {
                 <Form.Input onChange = { this.handleChange } label='経度' name = "longitude" fluid placeholder='１39.333' />
                 <Form.Input onChange = { this.handleChange } label='category' name = "category" fluid placeholder='Dance club' />
                 { this.state.success &&  <Message success header='登録完了' content="mapに追加されました" /> }
-                { this.state.error && <Message error header='Action Forbidden' content='You can only sign up for an account once with a given e-mail address.' /> }
+                { this.state.error && <Message error header='Action Forbidden' content='Need to fill in all blanks' /> }
                 <Button loading = { this.state.onLoad }>Submit</Button>
             </Form>
         )
