@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from 'react-router-dom';
-import App from './App';
-import DataForm from './DataForm';
+import App from '../components/App';
+import DataForm from '../components/DataForm';
 
 
 // Need to add access control to dataform in the future
