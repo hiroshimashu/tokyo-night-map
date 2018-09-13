@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from  'axios';
 import MapGL from 'react-map-gl'; 
 import Point from './point';
+import Way from './Way';
 // Need to move TOKEN into .env file and read from it. 
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/dark-v9';
 const TOKEN = "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2o4OW90ZjNuMDV6eTMybzFzbmc3bWpvciJ9.zfRO_nfL1O3d2EuoNtE_NQ";
@@ -83,6 +84,9 @@ class Map extends Component {
                 <Point
                   viewState = {this.state.viewport}
                   data={this.state.points}
+                />
+                <Way 
+                  viewState = { this.state.viewport }
                 />
               </MapGL>
           </div>
