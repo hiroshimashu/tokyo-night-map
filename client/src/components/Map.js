@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from  'axios';
 import MapGL from 'react-map-gl'; 
 import Point from './point';
-import Way from './Way';
+import pathData from './data/pathData';
 // Need to move TOKEN into .env file and read from it. 
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/dark-v9';
 const TOKEN = "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2o4OW90ZjNuMDV6eTMybzFzbmc3bWpvciJ9.zfRO_nfL1O3d2EuoNtE_NQ";
@@ -33,65 +33,72 @@ class Map extends Component {
         window.removeEventListener('resize', this._resize);
     }
     
-      _resize() {
-        this._onViewportChange({
-          width: window.innerWidth,
-          height: window.innerHeight
-        });
-      }
+    _resize() {
+      this._onViewportChange({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
     
-      _onSelect(selectedHour) {
+    _onSelect(selectedHour) {
+      this.setState({
+        selectedHour: selectedHour === this.state.selectedHour ? null : selectedHour
+      });
+    }
+    
+    async _processData() {
+      const taxiData = await axios.get('/get/mapinfo');
+      if (taxiData) {
+        this.setState({status: 'LOADED'});
+        const points = taxiData.data.reduce((accu, cuur) => {
+          accu.push({
+            position: [Number(cuur.longitude), Number(cuur.latitude)],
+            pickup: true
+          })
+          return accu;
+        }, []);
+        const paths = pathData.coordinates.reduce((accu, curr) => {
+          accu.push([curr.longitude, curr.latitude]);
+          return accu;
+        }, []);
+        console.log(paths);
         this.setState({
-          selectedHour: selectedHour === this.state.selectedHour ? null : selectedHour
+          points,
+          paths,
+          status: 'READY'
         });
       }
+    }
     
-      async _processData() {
-        const taxiData = await axios.get('/get/mapinfo');
-        if (taxiData) {
-          console.log(taxiData);
-          this.setState({status: 'LOADED'});
-          const points = taxiData.data.reduce((accu, cuur) => {
-            accu.push({
-              position: [Number(cuur.longitude), Number(cuur.latitude)],
-              pickup: true
-            })
-            return accu;
-          }, []);
-          this.setState({
-            points,
-            status: 'READY'
-          });
-        }
-      }
-    
-      _onViewportChange(viewport) {
-        this.setState({
-          viewport: {...this.state.viewport, ...viewport}
-        });
-      }
+    _onViewportChange(viewport) {
+      this.setState({
+        viewport: {...this.state.viewport, ...viewport}
+      });
+    }
     
     
     
-      render() {
-        return (
-          <div>
-              <MapGL
-                {...this.state.viewport}
-                onViewportChange={viewport => this._onViewportChange(viewport)}
-                mapStyle={MAPBOX_STYLE}
-                mapboxApiAccessToken={TOKEN}>
-                <Point
-                  viewState = {this.state.viewport}
-                  data={this.state.points}
-                />
-                <Way 
-                  viewState = { this.state.viewport }
-                />
-              </MapGL>
-          </div>
-        );
-      }
+    render() {
+      const dataChunk = [{
+         path: this.state.paths,
+         color: [255, 0, 128]
+      }]
+      return (
+        <div>
+            <MapGL
+              {...this.state.viewport}
+              onViewportChange={viewport => this._onViewportChange(viewport)}
+              mapStyle={MAPBOX_STYLE}
+              mapboxApiAccessToken={TOKEN}>
+              <Point
+                viewState = {this.state.viewport}
+                pointData={this.state.points}
+                pathData = { dataChunk }
+              />
+            </MapGL>
+        </div>
+      );
+    }
 }
 
 export default Map;

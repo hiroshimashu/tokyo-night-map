@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import DeckGL, {ScatterplotLayer} from 'deck.gl';
-
-
-
+import DeckGL, { ScatterplotLayer, PathLayer } from 'deck.gl';
 export default class DeckGLOverlay extends Component {
   
   _initialize(gl) {
@@ -11,7 +8,7 @@ export default class DeckGLOverlay extends Component {
   }
 
   render() {
-    if (!this.props.data) {
+    if (!this.props.pointData || !this.props.pathData) {
       return null;
     }
 
@@ -19,6 +16,7 @@ export default class DeckGLOverlay extends Component {
       new ScatterplotLayer({
         id: 'scatterplot',
         getPosition: d => d.position,
+        data: this.props.pointData,
         getColor: d => [0, 128, 255],
         getRadius: d => 1,
         opacity: 0.5,
@@ -26,15 +24,25 @@ export default class DeckGLOverlay extends Component {
         pickable: false,
         radiusMinPixels: 0.25,
         radiusMaxPixels: 30,
-        ...this.props
+      }),
+      new PathLayer({
+        id: 'path-layer',
+        data: this.props.pathData,
+        widthMinPixels: 2,
+        widthScale: 5,
+        getWidth: d => 5,
+        getColor: d => d.color,
+        getPath: d => d.path,
       })
     ];
 
 
     return (
+
+
       <DeckGL 
           viewState = {this.props.viewState}
-          layers={layers} 
+          layers={layers}
           onWebGLInitialized={this._initialize} 
           onViewportChange={viewport => this._onViewportChange(viewport)}  
       />
