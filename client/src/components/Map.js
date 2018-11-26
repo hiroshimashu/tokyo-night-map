@@ -3,6 +3,7 @@ import axios from  'axios';
 import MapGL from 'react-map-gl'; 
 import Point from './point';
 import pathData from './data/pathData';
+import pathData2 from './data/pathData2';
 // Need to move TOKEN into .env file and read from it. 
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/dark-v9';
 const TOKEN = "pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2o4OW90ZjNuMDV6eTMybzFzbmc3bWpvciJ9.zfRO_nfL1O3d2EuoNtE_NQ";
@@ -57,14 +58,21 @@ class Map extends Component {
           })
           return accu;
         }, []);
+
         const paths = pathData.coordinates.reduce((accu, curr) => {
           accu.push([curr.longitude, curr.latitude]);
           return accu;
         }, []);
-        console.log(paths);
+
+        const paths2 = pathData2.coordinates.reduce((accu, curr) => {
+          accu.push([curr.longitude, curr.latitude]);
+          return accu;
+        }, []);
+
         this.setState({
           points,
           paths,
+          paths2,
           status: 'READY'
         });
       }
@@ -81,8 +89,14 @@ class Map extends Component {
     render() {
       const dataChunk = [{
          path: this.state.paths,
-         color: [255, 0, 128]
+         color: [255, 28, 22]
       }]
+
+      const dataChunk2 = [{
+        path: this.state.paths2,
+        color: [255, 28, 22]
+      }]
+
       return (
         <div>
             <MapGL
@@ -94,6 +108,7 @@ class Map extends Component {
                 viewState = {this.state.viewport}
                 pointData={this.state.points}
                 pathData = { dataChunk }
+                pathData2 = { dataChunk2 }
               />
             </MapGL>
         </div>
