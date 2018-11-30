@@ -1,6 +1,9 @@
 const keys = require('../config/keys');
 const passport = require('passport');
+const mongoose = require('mongoose');
 const InstagramStrategy = require('passport-instagram');
+
+const User = mongoose.model('user');
 
 passport.use(new InstagramStrategy({
     clientID: INSTAGRAM_CLIENT_ID,
