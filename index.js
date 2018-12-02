@@ -1,11 +1,9 @@
-import { WSAEPFNOSUPPORT } from 'constants';
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
-const passport = require('passport');
 require('./models/User');
+const passport = require('passport');
 require('./services/passport');
 require('./models/MapInformation');
 
@@ -13,15 +11,17 @@ require('./models/MapInformation');
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 const app = express();
 
+
+// Authentication  Setting 
 app.use( 
     cookieSession({
         maxAge: 30 * 24 * 60 * 60 * 1000,
         keys: [keys.cookieKey]
     })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 app.use(bodyParser.json());
 require('./routes/authRoutes')(app);

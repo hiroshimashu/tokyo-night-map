@@ -10,5 +10,13 @@ module.exports = () => {
       );
       
     app.get('/auth/instagram/callback', passport.authenticate('instagram'));
-      
+
+    app.get('/api/current_user', (req, res) => {
+        res.send(req.user);
+    });
+
+    app.get('/api/logout', (req, res) => {
+      req.logout();
+      req.send(req.user);
+    });
 };
