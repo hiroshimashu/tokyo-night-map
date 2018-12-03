@@ -21,15 +21,13 @@ passport.use(new InstagramStrategy({
     clientSecret: INSTAGRAM_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:3000/auth/instagram/callback"
   },
-  (accessToken, refreshToken, profile, done) => {
-    User.findOne({ instagramId: profile.id }).then(existingUser => {
+  async (accessToken, refreshToken, profile, done) => {
+    const existingUser = await User.findOne({ instagramId: profile.id })
       if(existingUser) {
         done(null, existingUser);
       } else {
-        new User({ instagramId: profile.id })
-            .save()
-            .then(user => done(null, user));
+         const user = await new User({ instagramId: profile.id }).save();
+         done(null, user);
       }
-    })
   }
 ));
