@@ -23,11 +23,11 @@ passport.use(new InstagramStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     const existingUser = await User.findOne({ instagramId: profile.id })
-      if(existingUser) {
+
+    if(existingUser) {
         done(null, existingUser);
-      } else {
-         const user = await new User({ instagramId: profile.id }).save();
-         done(null, user);
-      }
+    } 
+    const user = await new User({ instagramId: profile.id }).save();
+    done(null, user);
   }
 ));

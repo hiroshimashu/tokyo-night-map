@@ -23,6 +23,8 @@
     "nodemon": "^1.18.4",
     "passport": "^0.4.0",
     "passport-instagram": "^1.0.0",
-    "react-map-gl": "^3.3.4"
+    "react-map-gl": "^3.3.4",
+    "react-redux": "^5.1.1",
+    "redux": "^4.0.1"
   }
 }
